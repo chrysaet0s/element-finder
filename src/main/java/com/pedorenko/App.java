@@ -43,6 +43,6 @@ public class App {
 
         String pathToMostMatchingElement = HTMLParser.getPathToElementFormatted(mostMatchingElement);
         System.out.println(pathToMostMatchingElement);
+        System.out.println("Match percent: " + Matcher.defineMatchPercent(mostMatchingElement, matchingParams) + "%");
     }
-
 }

@@ -26,39 +26,46 @@ public class Matcher {
 
     private static Optional<Element> findMostMatchingElementInDocument(Document doc, MatchingParams matchingParams) {
 
-        int maxMatchCount = -1;
+        double maxMatchPercent = -1;
         Element bestMatch = null;
-
-        String matchingTagName = matchingParams.getTagName();
-        Map<String, String> matchingAttributes = matchingParams.getAttributes();
-        String matchingContent = matchingParams.getContent();
 
         for (Element element : doc.getAllElements()) {
 
-            int matchCount = 0;
+            double matchPercent = defineMatchPercent(element, matchingParams);
 
-            if (element.tagName().equals(matchingTagName)) {
-                matchCount++;
-            }
-
-            for (String attributeName : matchingAttributes.keySet()) {
-                if (element.hasAttr(attributeName) && element.attr(attributeName).equals(matchingAttributes.get(attributeName))) {
-                    matchCount++;
-                }
-            }
-
-            if (element.text().equals(matchingContent)) {
-                matchCount++;
-            }
-
-            if (matchCount > maxMatchCount) {
-                maxMatchCount = matchCount;
+            if (matchPercent > maxMatchPercent) {
+                maxMatchPercent = matchPercent;
                 bestMatch = element;
             }
 
         }
 
         return Optional.ofNullable(bestMatch);
+    }
+
+    public static double defineMatchPercent(Element element, MatchingParams matchingParams) {
+
+        String matchingTagName = matchingParams.getTagName();
+        Map<String, String> matchingAttributes = matchingParams.getAttributes();
+        String matchingContent = matchingParams.getContent();
+
+        int matchCount = 0;
+
+        if (element.tagName().equals(matchingTagName)) {
+            matchCount++;
+        }
+
+        for (String attributeName : matchingAttributes.keySet()) {
+            if (element.hasAttr(attributeName) && element.attr(attributeName).equals(matchingAttributes.get(attributeName))) {
+                matchCount++;
+            }
+        }
+
+        if (element.text().equals(matchingContent)) {
+            matchCount++;
+        }
+
+        return (double) matchCount / (matchingAttributes.size() + 2) * 100;
     }
 
     public static MatchingParams defineMatchingParams(Element button) {

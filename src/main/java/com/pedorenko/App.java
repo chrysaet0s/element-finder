@@ -18,10 +18,16 @@ public class App {
 
         String inputOriginFilePath = args[0];
         String inputOtherSampleFilePath = args[1];
+        String targetElementId;
+        if (args.length > 2) {
+            targetElementId = args[2];
+        } else {
+            targetElementId = TARGET_ELEMENT_ID;
+        }
 
-        Optional<Element> buttonOpt = HTMLParser.findElementById(new File(inputOriginFilePath), CHARSET_NAME, TARGET_ELEMENT_ID);
+        Optional<Element> buttonOpt = HTMLParser.findElementById(new File(inputOriginFilePath), CHARSET_NAME, targetElementId);
         if (!buttonOpt.isPresent()) {
-            System.out.println("Element not found by id=" + TARGET_ELEMENT_ID);
+            System.out.println("Element not found by id=" + targetElementId);
             return;
         }
 

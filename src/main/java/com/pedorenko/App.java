@@ -18,8 +18,6 @@ public class App {
 
         String inputOriginFilePath = args[0];
         String inputOtherSampleFilePath = args[1];
-//        String inputOriginFilePath = "/home/andrew/Workspace/agileengine/html/sample-0-origin.html";
-//        String inputOtherSampleFilePath = "/home/andrew/Workspace/agileengine/html/sample-4-the-mash.html";
 
         Optional<Element> buttonOpt = HTMLParser.findElementById(new File(inputOriginFilePath), CHARSET_NAME, TARGET_ELEMENT_ID);
         if (!buttonOpt.isPresent()) {
